@@ -1,0 +1,118 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.main_wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.board{
+
+    border: 2px solid black;
+    /* padding: 20px; */
+
+    display: grid;
+    grid-template-columns: repeat(8, 40px);
+    grid-template-rows: repeat(8, 40px);
+}
+
+.square{
+    background-color: rgb(180, 180, 180);
+    cursor: pointer;
+    border: 1px solid rgb(123, 123, 123);
+    user-select: none;
+
+    background-size: cover; /* или contain, в зависимости от нужного эффекта */
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.selected {
+    border: 2px solid black;
+}
+
+.board div:nth-child(16n + 1),
+.board div:nth-child(16n + 3),
+.board div:nth-child(16n + 5),
+.board div:nth-child(16n + 7),
+.board div:nth-child(16n + 10),
+.board div:nth-child(16n + 12),
+.board div:nth-child(16n + 14),
+.board div:nth-child(16n + 16) {
+  background-color: rgb(123, 123, 123);
+}
+
+.board div:nth-child(16n + 2),
+.board div:nth-child(16n + 4),
+.board div:nth-child(16n + 6),
+.board div:nth-child(16n + 8),
+.board div:nth-child(16n + 9),
+.board div:nth-child(16n + 11),
+.board div:nth-child(16n + 13),
+.board div:nth-child(16n + 15) {
+  background-color: white; /* или white */
+}
+
+
+
+
+
+
+
+
+/* ============= */
+
+.bb {
+    background-image: url("pngs/bb.png");
+}
+
+.bh {
+    background-image: url("pngs/bh.png");
+}
+
+.bk {
+    background-image: url("pngs/bk.png");
+}
+
+.bq {
+    background-image: url("pngs/bq.png");
+}
+
+.bt {
+    background-image: url("pngs/bt.png");
+}
+
+.bw {
+    background-image: url("pngs/bw.png");
+}
+
+.wb {
+    background-image: url("pngs/wb.png");
+}
+
+.wh {
+    background-image: url("pngs/wh.png");
+}
+
+.wk {
+    background-image: url("pngs/wk.png");
+}
+
+.wp {
+    background-image: url("pngs/wp.png");
+}
+
+.wq {
+    background-image: url("pngs/wq.png");
+}
+
+.wt {
+    background-image: url("pngs/wt.png");
+}
