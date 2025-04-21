@@ -1,4 +1,4 @@
-import Board from './Board.js'
+import Board from '../Board.js'
 
 class Pawn {
     constructor(color, start_position) {
@@ -63,6 +63,10 @@ class Pawn {
             console.log("Нет фигуры для поедания");
         }
 
+    };
+
+    toString() {
+        return `${this.color}_pawn`;
     }
     
 

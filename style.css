@@ -69,50 +69,50 @@
 
 /* ============= */
 
-.bb {
-    background-image: url("pngs/bb.png");
+.black_bishop {
+    background-image: url("pngs/black_bishop.png");
 }
 
-.bh {
-    background-image: url("pngs/bh.png");
+.black_king {
+    background-image: url("pngs/black_king.png");
 }
 
-.bk {
-    background-image: url("pngs/bk.png");
+.black_knight {
+    background-image: url("pngs/black_knight.png");
 }
 
-.bq {
-    background-image: url("pngs/bq.png");
+.black_pawn {
+    background-image: url("pngs/black_pawn.png");
 }
 
-.bt {
-    background-image: url("pngs/bt.png");
+.black_queen {
+    background-image: url("pngs/black_queen.png");
 }
 
-.bw {
-    background-image: url("pngs/bw.png");
+.black_rook {
+    background-image: url("pngs/black_rook.png");
 }
 
-.wb {
-    background-image: url("pngs/wb.png");
+.white_bishop {
+    background-image: url("pngs/white_bishop.png");
 }
 
-.wh {
-    background-image: url("pngs/wh.png");
+.white_king {
+    background-image: url("pngs/white_king.png");
 }
 
-.wk {
-    background-image: url("pngs/wk.png");
+.white_knight {
+    background-image: url("pngs/white_knight.png");
 }
 
-.wp {
-    background-image: url("pngs/wp.png");
+.white_pawn {
+    background-image: url("pngs/white_pawn.png");
 }
 
-.wq {
-    background-image: url("pngs/wq.png");
+.white_queen {
+    background-image: url("pngs/white_queen.png");
 }
 
-.wt {
-    background-image: url("pngs/wt.png");
+.white_rook {
+    background-image: url("pngs/white_rook.png");
 }
