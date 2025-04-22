@@ -88,7 +88,8 @@ let figure = null
 let selected_before = null;
 let selected_after = null;
 
-let log = []
+let log = [];
+
 
 document.querySelectorAll('.square').forEach(square => {
   square.addEventListener('click', () => {
@@ -99,6 +100,12 @@ document.querySelectorAll('.square').forEach(square => {
         figure = Board.data[Number(selectedID[0])][Number(selectedID[1])];
         selected = square;
         square.classList.add('selected');
+
+        // TODO: подсветка ходов, нахождение куда можно ходить надо найти заранее
+        // for (let i = 0; i < figure.moves.length; i++) {
+        //   let elem = document.getElementById(figure.moves[i]);
+        //   elem.classList.add('access_move');
+        // };
 
         log.push(figure);
         log.push(selectedID);

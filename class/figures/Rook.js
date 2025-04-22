@@ -3,7 +3,7 @@ import Board from '../Board.js'
 class Rook {
     constructor(color, start_position) {
         this.color = color;
-
+        this.moves = [];
         // position - '00' - строка
         this.position = start_position;
         // row && column - числа
@@ -15,7 +15,7 @@ class Rook {
     }; 
 
     move(square) {
-        this.moves = [];
+
         let enemy = []
 
         if (this.color == 'black') {
@@ -104,6 +104,7 @@ class Rook {
             this.row = Number(square[0]);
             this.column = Number(square[1]);
             Board.data[this.row][this.column] = this;
+            this.moves = [];
         }
         else {
             console.log("Позиция недоступна")

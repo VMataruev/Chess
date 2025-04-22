@@ -57,7 +57,11 @@
 .board div:nth-child(16n + 11),
 .board div:nth-child(16n + 13),
 .board div:nth-child(16n + 15) {
-  background-color: #769656; /* или white */
+  background-color: #769656; 
+}
+
+.access_move {
+    background-color: rgba(255, 0, 0, 0.7);
 }
 
 
