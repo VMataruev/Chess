@@ -8,7 +8,6 @@
     width: 100vw;
     height: 100vh;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -19,14 +18,15 @@
     /* padding: 20px; */
 
     display: grid;
-    grid-template-columns: repeat(8, 40px);
-    grid-template-rows: repeat(8, 40px);
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    aspect-ratio: 1/1; /* Гарантирует квадратную форму */
+    width: 80vmin; /* 80% от меньшей из сторон (ширины или высоты) */
+    max-width: 600px; /* Ограничение максимального размера */
+    margin: 0 auto;
 }
 
 .square{
-    background-color: rgb(180, 180, 180);
-    cursor: pointer;
-    border: 1px solid rgb(123, 123, 123);
     user-select: none;
 
     background-size: cover; /* или contain, в зависимости от нужного эффекта */
@@ -46,7 +46,7 @@
 .board div:nth-child(16n + 12),
 .board div:nth-child(16n + 14),
 .board div:nth-child(16n + 16) {
-  background-color: rgb(123, 123, 123);
+  background-color: #eeeed2;
 }
 
 .board div:nth-child(16n + 2),
@@ -57,7 +57,14 @@
 .board div:nth-child(16n + 11),
 .board div:nth-child(16n + 13),
 .board div:nth-child(16n + 15) {
-  background-color: white; /* или white */
+  background-color: #769656; /* или white */
+}
+
+
+.logs {
+    width: 180px;
+    max-height: 200px;
+    overflow: auto;
 }
 
 
@@ -71,48 +78,60 @@
 
 .black_bishop {
     background-image: url("pngs/black_bishop.png");
+    cursor: pointer;
 }
 
 .black_king {
     background-image: url("pngs/black_king.png");
+    cursor: pointer;
 }
 
 .black_knight {
     background-image: url("pngs/black_knight.png");
+    cursor: pointer;
 }
 
 .black_pawn {
     background-image: url("pngs/black_pawn.png");
+    cursor: pointer;
 }
 
 .black_queen {
     background-image: url("pngs/black_queen.png");
+    cursor: pointer;
 }
 
 .black_rook {
     background-image: url("pngs/black_rook.png");
+    cursor: pointer;
 }
 
 .white_bishop {
     background-image: url("pngs/white_bishop.png");
+    cursor: pointer;
 }
 
 .white_king {
     background-image: url("pngs/white_king.png");
+    cursor: pointer;
 }
 
 .white_knight {
     background-image: url("pngs/white_knight.png");
+    cursor: pointer;
 }
 
 .white_pawn {
     background-image: url("pngs/white_pawn.png");
+    cursor: pointer;
 }
 
 .white_queen {
     background-image: url("pngs/white_queen.png");
+    cursor: pointer;
 }
 
 .white_rook {
     background-image: url("pngs/white_rook.png");
+    cursor: pointer;
 }
