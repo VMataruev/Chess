@@ -102,10 +102,10 @@ document.querySelectorAll('.square').forEach(square => {
         square.classList.add('selected');
 
         // TODO: подсветка ходов, нахождение куда можно ходить надо найти заранее
-        // for (let i = 0; i < figure.moves.length; i++) {
-        //   let elem = document.getElementById(figure.moves[i]);
-        //   elem.classList.add('access_move');
-        // };
+        for (let i = 0; i < figure.moves.length; i++) {
+          let elem = document.getElementById(figure.moves[i]);
+          elem.classList.add('access_move');
+        };
 
         log.push(figure);
         log.push(selectedID);

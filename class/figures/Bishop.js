@@ -9,6 +9,7 @@ class Bishop {
         // row && column - числа
         this.row = Number(this.position[0]);
         this.column = Number(this.position[1]);
+        this.access_move();
 
         Board.data[start_position[0]][start_position[1]] = this;
 
@@ -16,7 +17,29 @@ class Bishop {
 
     move(square) {
 
-        let enemy = []
+        if (this.moves.includes(square)) {
+            Board.data[this.row][this.column] = '';
+            this.position = square;
+            this.row = Number(square[0]);
+            this.column = Number(square[1]);
+            Board.data[this.row][this.column] = this;
+            this.moves = [];
+            this.access_move();
+        }
+        else {
+            console.log("Позиция недоступна")
+        }
+            
+    };
+
+    toString() {
+        return `${this.color}_bishop`;
+    }
+
+
+
+    access_move() {
+        let enemy = null;
 
         if (this.color == 'black') {
             enemy = 'white';
@@ -28,10 +51,6 @@ class Bishop {
 
         // ===================== Доступные ходы =====================
 
-
-
-
-
         for (let i = 0; i < 7; i++) {
             try {
                 let row = this.row-i;
@@ -42,7 +61,7 @@ class Bishop {
                 };
             }
             catch (error) {
-                console.log('Позиция недоступна');
+                console.log(error);
             }
         };
 
@@ -56,7 +75,7 @@ class Bishop {
                 };
             }
             catch (error) {
-                console.log('Позиция недоступна');
+                console.log(error); // 'Позиция недоступна'
             }
         };
 
@@ -70,7 +89,7 @@ class Bishop {
                 };
             }
             catch (error) {
-                console.log('Позиция недоступна');
+                console.log(error);
             }
         };
 
@@ -84,36 +103,11 @@ class Bishop {
                 };
             }
             catch (error) {
-                console.log('Позиция недоступна');
+                console.log(error);
             }
         };
-
-
-
-
-
 
         // =======================================================
-
-
-
-
-        if (this.moves.includes(square)) {
-            Board.data[this.row][this.column] = '';
-            this.position = square;
-            this.row = Number(square[0]);
-            this.column = Number(square[1]);
-            Board.data[this.row][this.column] = this;
-            this.moves = [];
-        }
-        else {
-            console.log("Позиция недоступна")
-        }
-            
-    };
-
-    toString() {
-        return `${this.color}_bishop`;
     }
     
 
