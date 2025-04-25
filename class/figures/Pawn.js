@@ -9,10 +9,52 @@ class Pawn {
         // row && column - числа
         this.row = Number(this.position[0]);
         this.column = Number(this.position[1]);
+        this.access_move();
 
         Board.data[start_position[0]][start_position[1]] = this;
 
     }; 
+
+    // Свой уникальный класс из-за уникальной функции поедания по диагонали
+    access_move() {
+        let enemy = []
+
+        if (this.color == 'black') {
+            enemy = 'white';
+        }
+        else {
+            enemy = 'black';
+        }
+
+        if (this.color == 'black') {
+            try {
+                let row = this.row+1;
+                let column = this.column;
+                if (Board.data[row][column] == '') {
+                    let access_move = String(row) + String(column);
+                    this.moves.push(access_move);
+                };
+            }
+            catch (error) {
+                console.log('Позиция недоступна');
+            }
+        }
+        else {
+            try {
+                let row = this.row-1;
+                let column = this.column;
+                if (Board.data[row][column] == '') {
+                    let access_move = String(row) + String(column);
+                    this.moves.push(access_move);
+                };
+            }
+            catch (error) {
+                console.log('Позиция недоступна');
+            }
+        }
+    }
+
+
 
     move(square) {
 
@@ -56,19 +98,19 @@ class Pawn {
 
 
         if (Board.data[Number(square[0])][Number(square[1])].color == enemy) {
-            this.moves_eatable = [];
+            this.moves = [];
     
             if (this.color == 'black') {
                 // Черные пешки бьют вниз по диагонали
-                this.moves_eatable.push(String(this.row + 1) + String(this.column - 1));
-                this.moves_eatable.push(String(this.row + 1) + String(this.column + 1));
+                this.moves.push(String(this.row + 1) + String(this.column - 1));
+                this.moves.push(String(this.row + 1) + String(this.column + 1));
             } else {
                 // Белые пешки бьют вверх по диагонали
-                this.moves_eatable.push(String(this.row - 1) + String(this.column - 1));
-                this.moves_eatable.push(String(this.row - 1) + String(this.column + 1));
+                this.moves.push(String(this.row - 1) + String(this.column - 1));
+                this.moves.push(String(this.row - 1) + String(this.column + 1));
             }
         
-            if (this.moves_eatable.includes(square)) {
+            if (this.moves.includes(square)) {
                 Board.data[this.row][this.column] = '';
                 Board.data[Number(square[0])][Number(square[1])] = this;
     
@@ -91,6 +133,7 @@ class Pawn {
             this.column = Number(square[1]);
             Board.data[this.row][this.column] = this;
             this.moves = [];
+            this.access_move();
         }
         else {
             console.log("Позиция недоступна")
@@ -100,36 +143,6 @@ class Pawn {
         
     };
 
-    // eat(square) {
-    //     if (Board.data[Number(square[0])][Number(square[1])] != '') {
-    //         this.moves_eatable = [];
-    
-    //         if (this.color == 'black') {
-    //             // Черные пешки бьют вниз по диагонали
-    //             this.moves_eatable.push(String(this.row + 1) + String(this.column - 1));
-    //             this.moves_eatable.push(String(this.row + 1) + String(this.column + 1));
-    //         } else {
-    //             // Белые пешки бьют вверх по диагонали
-    //             this.moves_eatable.push(String(this.row - 1) + String(this.column - 1));
-    //             this.moves_eatable.push(String(this.row - 1) + String(this.column + 1));
-    //         }
-        
-    //         if (this.moves_eatable.includes(square)) {
-    //             Board.data[this.row][this.column] = '';
-    //             Board.data[Number(square[0])][Number(square[1])] = this;
-    
-    //             this.row = Number(square[0]);
-    //             this.column = Number(square[1]);
-    //             this.position = String(this.row) + String(this.column);
-    //         } else {
-    //             console.log("Невозможно съесть фигуру на этой клетке");
-    //         }
-    //     }
-    //     else {
-    //         console.log("Нет фигуры для поедания");
-    //     }
-
-    // };
 
     toString() {
         return `${this.color}_pawn`;

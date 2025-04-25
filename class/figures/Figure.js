@@ -33,11 +33,11 @@ class Figure {
     };
 
     toString() {
-        return `${this.color}_bishop`;
+        return `${this.color}_${this.constructor.name.toLowerCase()}`;
     }
 
     access_move() {
-        // 
+        // Задаётся в наследуемом классе
     }
     
 

@@ -1,51 +1,19 @@
 import Board from '../Board.js'
+import Figure from './Figure.js';
 
-class Bishop {
-    constructor(color, start_position) {
-        this.color = color;
-        this.moves = [];
-        // position - '00' - строка
-        this.position = start_position;
-        // row && column - числа
-        this.row = Number(this.position[0]);
-        this.column = Number(this.position[1]);
-        this.access_move();
-
-        Board.data[start_position[0]][start_position[1]] = this;
-
-    }; 
-
-    move(square) {
-
-        if (this.moves.includes(square)) {
-            Board.data[this.row][this.column] = '';
-            this.position = square;
-            this.row = Number(square[0]);
-            this.column = Number(square[1]);
-            Board.data[this.row][this.column] = this;
-            this.moves = [];
-            this.access_move();
-        }
-        else {
-            console.log("Позиция недоступна")
-        }
-            
-    };
-
-    toString() {
-        return `${this.color}_bishop`;
-    }
-
-
+class Bishop extends Figure{
 
     access_move() {
         let enemy = null;
+        let team = null;
 
         if (this.color == 'black') {
             enemy = 'white';
+            team = 'black'
         }
         else {
             enemy = 'black';
+            team = 'white'
         }
 
 
@@ -59,6 +27,7 @@ class Bishop {
                     let access_move = String(row) + String(column);
                     this.moves.push(access_move);
                 };
+                
             }
             catch (error) {
                 console.log(error);
