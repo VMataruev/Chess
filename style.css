@@ -4,6 +4,13 @@
     box-sizing: border-box;
 }
 
+body {
+    background-color: #262522;
+    color: white;
+    font-family: "Cascadia Code", sans-serif;
+    src: url('./fonts/Cascadia_Code/CascadiaCode-VariableFont_wght.ttf') format('woff2');
+}
+
 .main_wrapper {
     width: 100vw;
     height: 100vh;
@@ -14,7 +21,7 @@
 
 .board{
 
-    border: 2px solid black;
+    /* border: 2px solid black; */
     /* padding: 20px; */
 
     display: grid;
@@ -23,7 +30,9 @@
     aspect-ratio: 1/1; /* Гарантирует квадратную форму */
     width: 80vmin; /* 80% от меньшей из сторон (ширины или высоты) */
     max-width: 600px; /* Ограничение максимального размера */
-    margin: 0 auto;
+    margin-right: 20px;
+    border-radius: 4px;
+    overflow: hidden;
 }
 
 .square{
@@ -61,14 +70,18 @@
 }
 
 .access_move {
-    background-color: rgba(255, 0, 0, 0.7) !important;
+    background-color: #b9ca43 !important;
 }
 
 
 .logs {
-    width: 180px;
+    width: 208px;
     height: 200px;
     overflow: auto;
+}
+
+.info_block {
+    margin-right: 20px;
 }
 
 
