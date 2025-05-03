@@ -14,7 +14,7 @@ class Bishop extends Figure{
         else {
             enemy = 'black';
             team = 'white'
-        }
+        };
 
 
         // ===================== Доступные ходы =====================
@@ -26,11 +26,13 @@ class Bishop extends Figure{
                 if (Board.data[row][column] == '' || Board.data[row][column].color == enemy) {
                     let access_move = String(row) + String(column);
                     this.moves.push(access_move);
-                };
-                
+                    if (Board.data[row][column].color == enemy) {
+                        break;
+                    }
+                }
             }
             catch (error) {
-                console.log(error);
+                console.log('Позиция недоступна');
             }
         };
 
@@ -41,10 +43,13 @@ class Bishop extends Figure{
                 if (Board.data[row][column] == '' || Board.data[row][column].color == enemy) {
                     let access_move = String(row) + String(column);
                     this.moves.push(access_move);
+                    if (Board.data[row][column] != '') {
+                        break;
+                    }
                 };
             }
             catch (error) {
-                console.log(error); // 'Позиция недоступна'
+                console.log('Позиция недоступна'); // 'Позиция недоступна'
             }
         };
 
@@ -55,10 +60,13 @@ class Bishop extends Figure{
                 if (Board.data[row][column] == '' || Board.data[row][column].color == enemy) {
                     let access_move = String(row) + String(column);
                     this.moves.push(access_move);
+                    if (Board.data[row][column] != '') {
+                        break;
+                    }
                 };
             }
             catch (error) {
-                console.log(error);
+                console.log('Позиция недоступна');
             }
         };
 
@@ -69,10 +77,13 @@ class Bishop extends Figure{
                 if (Board.data[row][column] == '' || Board.data[row][column].color == enemy) {
                     let access_move = String(row) + String(column);
                     this.moves.push(access_move);
+                    if (Board.data[row][column] != '') {
+                        break;
+                    }
                 };
             }
             catch (error) {
-                console.log(error);
+                console.log('Позиция недоступна');
             }
         };
 
