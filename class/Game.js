@@ -71,6 +71,7 @@ updateBoard();
 let selected = null;
 let selectedID = null;
 let figure = null
+let checkmate = false;
 
 let selected_before = null;
 let selected_after = null;
@@ -100,8 +101,8 @@ document.querySelectorAll('.square').forEach(square => {
       team_move = 'black';
     }
 
-    // первый клик
-    if (!selected && Board.data[Number(square.id[0])][Number(square.id[1])].color == team_move) {
+    // первый клик - любая фигура (нет шаха)
+    if (!selected && Board.data[Number(square.id[0])][Number(square.id[1])].color == team_move && !checkmate) {
       // console.log(Board.data[Number(square.id[0])][Number(square.id[1])].color == team_move);
       selectedID = square.id;
       if (Board.data[Number(selectedID[0])][Number(selectedID[1])] != '') {
@@ -119,8 +120,32 @@ document.querySelectorAll('.square').forEach(square => {
         log.push(selectedID);
         console.log(square);
       }
-      
     }
+
+    // первый клик - король (шах)
+    else if (!selected && Board.data[Number(square.id[0])][Number(square.id[1])].color == team_move && checkmate) {
+      selectedID = square.id;
+      if (Board.data[Number(selectedID[0])][Number(selectedID[1])] instanceof King) {
+        figure = Board.data[Number(selectedID[0])][Number(selectedID[1])];
+        selected = square;
+        square.classList.add('selected');
+
+        // подсветка ходов, нахождение куда можно ходить надо найти заранее
+        for (let i = 0; i < figure.moves.length; i++) {
+          let elem = document.getElementById(figure.moves[i]);
+          elem.classList.add('access_move');
+        };
+
+        log.push(figure);
+        log.push(selectedID);
+        console.log(square);
+      }
+    }
+
+
+
+      
+    
     // второй клик
     else if (selected) {
       selectedID = square.id;
@@ -144,38 +169,81 @@ document.querySelectorAll('.square').forEach(square => {
         div_move_count.textContent = `Количество ходов: ${move_count}`
         div_team_move.textContent = `Ходят: ${move_count % 2 == 0 ? 'Белые' : 'Чёрные'}`;
 
+        // если походил король — сбросить флаг шаха
+        if (figure instanceof King) {
+          checkmate = false;
+
+          // очистить уведомление
+          document.getElementById('checkmate').textContent = '';
+        }
+
         // Вложенный массив сплющиваем до одноуровневого массива, а потом считаем сколько значений != ''
         const figures_on_board_count = Board.data.flat().filter(item => item !== '').length;
         console.log(figures_on_board_count);
 
 
 
-        // проверка на шах и мат
+
+        // выдаёт ходы всем фигурам
+        for (let i = 0; i < figures_on_board.length; i++) {
+          figures_on_board[i].access_move();
+        }
+
+
+
+
+
+        // проверка на шах
         for (let i = 0; i < Board.data.length; i++) {
           for (let j = 0; j < Board.data.length; j++) {
             let figure = Board.data[i][j];
+            // если фигура угрожает королю
             if (
-              (figure.color == 'black' && figure.moves.includes(figures_on_board[1].position)) || 
-              (figure.color == 'white' && figure.moves.includes(figures_on_board[0].position))
+              (figure.color === 'black' && figure.moves.includes(figures_on_board[1].position)) ||
+              (figure.color === 'white' && figure.moves.includes(figures_on_board[0].position))
             ) {
-              // подсветка ходов, нахождение куда можно ходить надо найти заранее
-              for (let i = 0; i < figure.moves.length; i++) {
-                let elem = document.getElementById(figure.moves[i]);
-                elem.classList.add('access_move');
-              };
+              let king = (figure.color === 'black') ? figures_on_board[1] : figures_on_board[0];
 
-              if (figure.color == 'black') {
+              // найти все ходы короля, которые НЕ находятся под атакой
+              let safeMoves = king.moves.filter(move => {
+                // проверим, не находится ли эта клетка под ударом какой-либо вражеской фигуры
+                return !figures_on_board.some(enemy => {
+                  return enemy.color !== king.color && enemy.moves.includes(move);
+                });
+              });
+
+              if (safeMoves.length === 0) {
+                // Мат
                 let div = document.getElementById('checkmate');
-                div.textContent = ('Шах белому королю!')
-              }
-              else if (figure.color == 'white') {
+                div.textContent = `Шах и мат ${king.color === 'white' ? 'белому' : 'чёрному'} королю!`;
+
+                const newBlock = document.createElement('div');
+                newBlock.textContent = `Шах и мат ${king.color === 'white' ? 'белому' : 'чёрному'} королю!`;
+                document.getElementById('logs').appendChild(newBlock);
+
+                let elem = document.getElementById('end_game');
+                elem.style.display = 'flex';
+                let elem1 = document.getElementById('end_game_text');
+                elem1.textContent = `Победа ${king.color === 'white' ? "чёрных!" : "белых!"}`
+
+                checkmate = true;
+              } else {
+                // Только шах
                 let div = document.getElementById('checkmate');
-                div.textContent = ('Шах чёрному королю!')
+                div.textContent = `Шах ${king.color === 'white' ? 'белому' : 'чёрному'} королю!`;
+
+                const newBlock = document.createElement('div');
+                newBlock.textContent = `Шах ${king.color === 'white' ? 'белому' : 'чёрному'} королю!`;
+                document.getElementById('logs').appendChild(newBlock);
+
+                checkmate = true;
               }
             }
           }
         }
       };
+
+
 
       
       selected.classList.remove('selected');
@@ -184,9 +252,7 @@ document.querySelectorAll('.square').forEach(square => {
       log = [];
       updateBoard();
 
-      for (let i = 0; i < figures_on_board.length; i++) {
-        figures_on_board[i].access_move();
-      }
+
     }
   })
 })

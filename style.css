@@ -90,6 +90,28 @@ body {
     left: 0;
 }
 
+#end_game {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 80%);  /* Тёмный полупрозрачный фон */           /* Применяем блюр фона */
+    z-index: 1000;                           /* Убедись, что элемент поверх других */
+    align-items: center;
+    justify-content: center;
+
+    display: none;
+}
+
+#end_game_text {
+    color: black;
+    padding: 12px 24px;
+    border-radius: 16px;
+    display: flex;
+    background-color: white;
+}
+
 
 
 
