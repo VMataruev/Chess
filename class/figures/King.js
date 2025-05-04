@@ -4,13 +4,16 @@ import Figure from './Figure.js';
 class King extends Figure {
 
     access_move() {
-        let enemy = []
+        let enemy = null;
+        let team = null;
 
         if (this.color == 'black') {
             enemy = 'white';
+            team = 'black';
         }
         else {
             enemy = 'black';
+            team = 'white';
         }
 
         // ===================== Доступные ходы =====================

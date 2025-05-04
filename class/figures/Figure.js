@@ -9,7 +9,7 @@ class Figure {
         // row && column - числа
         this.row = Number(this.position[0]);
         this.column = Number(this.position[1]);
-        this.access_move();
+        // this.access_move(); проверка ходов перенесена в Game.js
 
         Board.data[start_position[0]][start_position[1]] = this;
 
@@ -24,7 +24,7 @@ class Figure {
             this.column = Number(square[1]);
             Board.data[this.row][this.column] = this;
             this.moves = [];
-            this.access_move();
+            // this.access_move(); проверка ходов перенесена в Game.js
         }
         else {
             console.log("Позиция недоступна")

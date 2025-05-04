@@ -84,7 +84,11 @@ body {
     margin-right: 20px;
 }
 
-
+#checkmate {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
 
 
 
@@ -152,3 +156,5 @@ body {
     background-image: url("pngs/white_rook.png");
     cursor: pointer;
 }
+
+

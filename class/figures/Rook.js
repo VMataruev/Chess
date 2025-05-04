@@ -4,13 +4,16 @@ import Figure from './Figure.js';
 class Rook extends Figure{
 
     access_move() {
-        let enemy = []
+        let enemy = null;
+        let team = null;
 
         if (this.color == 'black') {
             enemy = 'white';
+            team = 'black';
         }
         else {
             enemy = 'black';
+            team = 'white';
         }
 
 
@@ -20,61 +23,85 @@ class Rook extends Figure{
 
 
 
-        for (let i = 0; i < 7; i++) {
-            try {
-                let row = this.row-i;
-                let column = this.column;
-                if (Board.data[row][column] == '' || Board.data[row][column].color == enemy) {
-                    let access_move = String(row) + String(column);
-                    this.moves.push(access_move);
-                };
-            }
-            catch (error) {
-                console.log('Позиция недоступна');
-            }
-        };
+        for (let i = 1; i < 7; i++) {
+            let row = this.row-i;
+            let column = this.column;
 
-        for (let i = 0; i < 7; i++) {
-            try {
-                let row = this.row+i;
-                let column = this.column;
-                if (Board.data[row][column] == '' || Board.data[row][column].color == enemy) {
-                    let access_move = String(row) + String(column);
-                    this.moves.push(access_move);
-                };
-            }
-            catch (error) {
-                console.log('Позиция недоступна');
-            }
-        };
+            if (row < 0 || row > 7 || column < 0 || column > 7) {break};
 
-        for (let i = 0; i < 7; i++) {
-            try {
-                let row = this.row;
-                let column = this.column-i;
-                if (Board.data[row][column] == '' || Board.data[row][column].color == enemy) {
-                    let access_move = String(row) + String(column);
-                    this.moves.push(access_move);
-                };
+            if (Board.data[row][column] == '') {
+                let access_move = String(row) + String(column);
+                this.moves.push(access_move);
             }
-            catch (error) {
-                console.log('Позиция недоступна');
+            else if (Board.data[row][column].color == enemy) {
+                let access_move = String(row) + String(column);
+                this.moves.push(access_move);
+                break;
             }
-        };
+            else if (Board.data[row][column].color == team) {
+                break;
+            }
+        }
 
-        for (let i = 0; i < 7; i++) {
-            try {
-                let row = this.row;
-                let column = this.column+i;
-                if (Board.data[row][column] == '' || Board.data[row][column].color == enemy) {
-                    let access_move = String(row) + String(column);
-                    this.moves.push(access_move);
-                };
+        for (let i = 1; i < 7; i++) {
+            let row = this.row+i;
+            let column = this.column;
+
+            if (row < 0 || row > 7 || column < 0 || column > 7) {break};
+
+            if (Board.data[row][column] == '') {
+                let access_move = String(row) + String(column);
+                this.moves.push(access_move);
             }
-            catch (error) {
-                console.log('Позиция недоступна');
+            else if (Board.data[row][column].color == enemy) {
+                let access_move = String(row) + String(column);
+                this.moves.push(access_move);
+                break;
             }
-        };
+            else if (Board.data[row][column].color == team) {
+                break;
+            }
+        }
+
+        for (let i = 1; i < 7; i++) {
+            let row = this.row;
+            let column = this.column-i;
+
+            if (row < 0 || row > 7 || column < 0 || column > 7) {break};
+
+            if (Board.data[row][column] == '') {
+                let access_move = String(row) + String(column);
+                this.moves.push(access_move);
+            }
+            else if (Board.data[row][column].color == enemy) {
+                let access_move = String(row) + String(column);
+                this.moves.push(access_move);
+                break;
+            }
+            else if (Board.data[row][column].color == team) {
+                break;
+            }
+        }
+
+        for (let i = 1; i < 7; i++) {
+            let row = this.row;
+            let column = this.column+i;
+
+            if (row < 0 || row > 7 || column < 0 || column > 7) {break};
+
+            if (Board.data[row][column] == '') {
+                let access_move = String(row) + String(column);
+                this.moves.push(access_move);
+            }
+            else if (Board.data[row][column].color == enemy) {
+                let access_move = String(row) + String(column);
+                this.moves.push(access_move);
+                break;
+            }
+            else if (Board.data[row][column].color == team) {
+                break;
+            }
+        }
     }    
 
 }

@@ -14,6 +14,8 @@ function printBoard(board) {
 
 
 const figures_on_board = [
+  new King('black', '04'),
+  new King('white', '74'),
   // сначала ряд, потом столбец
   new Pawn('black', '10'),
   new Pawn('black', '11'),
@@ -33,7 +35,7 @@ const figures_on_board = [
   new Rook('black', '00'),
   new Rook('black', '07'),
 
-  new King('black', '04'),
+
   new Queen('black', '03'),
 
   // ==============
@@ -56,7 +58,6 @@ const figures_on_board = [
   new Rook('white', '70'),
   new Rook('white', '77'),
 
-  new King('white', '74'),
   new Queen('white', '73')
 ];
 
@@ -66,9 +67,6 @@ console.log(Board.data);
 
 updateBoard();
 
-// Вложенный массив сплющиваем до одноуровневого массива, а потом считаем сколько значений != ''
-const figures_on_board_count = Board.data.flat().filter(item => item !== '').length;
-console.log(figures_on_board_count);
 
 let selected = null;
 let selectedID = null;
@@ -87,6 +85,9 @@ div_team_move.textContent = `Ходят: ${move_count % 2 == 0 ? 'Белые' : 
 let div_move_count = document.getElementById('move_count');
 div_move_count.textContent = `Количество ходов: ${move_count}`
 
+// Вложенный массив сплющиваем до одноуровневого массива, а потом считаем сколько значений != ''
+const figures_on_board_count = Board.data.flat().filter(item => item !== '').length;
+console.log(figures_on_board_count);
 
 document.querySelectorAll('.square').forEach(square => {
   square.addEventListener('click', () => {
@@ -99,6 +100,7 @@ document.querySelectorAll('.square').forEach(square => {
       team_move = 'black';
     }
 
+    // первый клик
     if (!selected && Board.data[Number(square.id[0])][Number(square.id[1])].color == team_move) {
       // console.log(Board.data[Number(square.id[0])][Number(square.id[1])].color == team_move);
       selectedID = square.id;
@@ -107,7 +109,7 @@ document.querySelectorAll('.square').forEach(square => {
         selected = square;
         square.classList.add('selected');
 
-        // TODO: подсветка ходов, нахождение куда можно ходить надо найти заранее
+        // подсветка ходов, нахождение куда можно ходить надо найти заранее
         for (let i = 0; i < figure.moves.length; i++) {
           let elem = document.getElementById(figure.moves[i]);
           elem.classList.add('access_move');
@@ -141,6 +143,38 @@ document.querySelectorAll('.square').forEach(square => {
         move_count++;
         div_move_count.textContent = `Количество ходов: ${move_count}`
         div_team_move.textContent = `Ходят: ${move_count % 2 == 0 ? 'Белые' : 'Чёрные'}`;
+
+        // Вложенный массив сплющиваем до одноуровневого массива, а потом считаем сколько значений != ''
+        const figures_on_board_count = Board.data.flat().filter(item => item !== '').length;
+        console.log(figures_on_board_count);
+
+
+
+        // проверка на шах и мат
+        for (let i = 0; i < Board.data.length; i++) {
+          for (let j = 0; j < Board.data.length; j++) {
+            let figure = Board.data[i][j];
+            if (
+              (figure.color == 'black' && figure.moves.includes(figures_on_board[1].position)) || 
+              (figure.color == 'white' && figure.moves.includes(figures_on_board[0].position))
+            ) {
+              // подсветка ходов, нахождение куда можно ходить надо найти заранее
+              for (let i = 0; i < figure.moves.length; i++) {
+                let elem = document.getElementById(figure.moves[i]);
+                elem.classList.add('access_move');
+              };
+
+              if (figure.color == 'black') {
+                let div = document.getElementById('checkmate');
+                div.textContent = ('Шах белому королю!')
+              }
+              else if (figure.color == 'white') {
+                let div = document.getElementById('checkmate');
+                div.textContent = ('Шах чёрному королю!')
+              }
+            }
+          }
+        }
       };
 
       
@@ -149,6 +183,10 @@ document.querySelectorAll('.square').forEach(square => {
       selectedID = null;
       log = [];
       updateBoard();
+
+      for (let i = 0; i < figures_on_board.length; i++) {
+        figures_on_board[i].access_move();
+      }
     }
   })
 })
