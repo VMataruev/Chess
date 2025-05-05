@@ -1,154 +1,85 @@
-import Board from '../Board.js'
+import Board from '../Board.js';
 
 class Pawn {
     constructor(color, start_position) {
         this.color = color;
-        this.moves = [];
-        // position - '00' - строка
         this.position = start_position;
-        // row && column - числа
-        this.row = Number(this.position[0]);
-        this.column = Number(this.position[1]);
+        this.row = Number(start_position[0]);
+        this.column = Number(start_position[1]);
+        this.moves = [];
+
+        Board.data[this.row][this.column] = this;
         this.access_move();
+    }
 
-        Board.data[start_position[0]][start_position[1]] = this;
-
-    }; 
-
-    // Свой уникальный класс из-за уникальной функции поедания по диагонали
     access_move() {
-        let enemy = []
-
-        if (this.color == 'black') {
-            enemy = 'white';
-        }
-        else {
-            enemy = 'black';
-        }
-
-        if (this.color == 'black') {
-            try {
-                let row = this.row+1;
-                let column = this.column;
-                if (Board.data[row][column] == '') {
-                    let access_move = String(row) + String(column);
-                    this.moves.push(access_move);
-                };
-            }
-            catch (error) {
-                console.log('Позиция недоступна');
+        this.moves = [];
+        const direction = this.color === 'black' ? 1 : -1;
+        const startRow = this.color === 'black' ? 1 : 6;
+        const enemyColor = this.color === 'black' ? 'white' : 'black';
+    
+        const forwardRow = this.row + direction;
+    
+        // Обычный ход вперёд
+        if (this.inBounds(forwardRow, this.column) && Board.data[forwardRow][this.column] === '') {
+            this.moves.push(`${forwardRow}${this.column}`);
+    
+            // Двойной ход, только с начальной позиции и если обе клетки пустые
+            const doubleForward = this.row + direction * 2;
+            if (this.row === startRow && Board.data[doubleForward][this.column] === '') {
+                this.moves.push(`${doubleForward}${this.column}`);
             }
         }
-        else {
-            try {
-                let row = this.row-1;
-                let column = this.column;
-                if (Board.data[row][column] == '') {
-                    let access_move = String(row) + String(column);
-                    this.moves.push(access_move);
-                };
-            }
-            catch (error) {
-                console.log('Позиция недоступна');
+    
+        // Атака по диагонали
+        for (let offset of [-1, 1]) {
+            const col = this.column + offset;
+            if (this.inBounds(forwardRow, col)) {
+                const target = Board.data[forwardRow][col];
+                if (target !== '' && target.color === enemyColor) {
+                    this.moves.push(`${forwardRow}${col}`);
+                }
             }
         }
     }
-
-
-
-    move(square) {
-
-        let enemy = []
-
-        if (this.color == 'black') {
-            enemy = 'white';
-        }
-        else {
-            enemy = 'black';
-        }
-
-
-        if (this.color == 'black') {
-            try {
-                let row = this.row+1;
-                let column = this.column;
-                if (Board.data[row][column] == '') {
-                    let access_move = String(row) + String(column);
-                    this.moves.push(access_move);
-                };
-            }
-            catch (error) {
-                console.log('Позиция недоступна');
-            }
-        }
-        else {
-            try {
-                let row = this.row-1;
-                let column = this.column;
-                if (Board.data[row][column] == '') {
-                    let access_move = String(row) + String(column);
-                    this.moves.push(access_move);
-                };
-            }
-            catch (error) {
-                console.log('Позиция недоступна');
-            }
-        }
-
-
-
-        if (Board.data[Number(square[0])][Number(square[1])].color == enemy) {
-            this.moves = [];
     
-            if (this.color == 'black') {
-                // Черные пешки бьют вниз по диагонали
-                this.moves.push(String(this.row + 1) + String(this.column - 1));
-                this.moves.push(String(this.row + 1) + String(this.column + 1));
-            } else {
-                // Белые пешки бьют вверх по диагонали
-                this.moves.push(String(this.row - 1) + String(this.column - 1));
-                this.moves.push(String(this.row - 1) + String(this.column + 1));
-            }
-        
-            if (this.moves.includes(square)) {
-                Board.data[this.row][this.column] = '';
-                Board.data[Number(square[0])][Number(square[1])] = this;
-    
-                this.row = Number(square[0]);
-                this.column = Number(square[1]);
-                this.position = String(this.row) + String(this.column);
-            } else {
-                console.log("Невозможно съесть фигуру на этой клетке");
-            }
-        }
-        else {
-            console.log("Нет фигуры для поедания");
+
+    move(targetSquare) {
+        this.access_move();
+
+        if (!this.moves.includes(targetSquare)) {
+            console.log("Невозможный ход для пешки.");
+            return;
         }
 
+        const targetRow = Number(targetSquare[0]);
+        const targetCol = Number(targetSquare[1]);
 
-        if (this.moves.includes(square)) {
-            Board.data[this.row][this.column] = '';
-            this.position = square;
-            this.row = Number(square[0]);
-            this.column = Number(square[1]);
-            Board.data[this.row][this.column] = this;
-            this.moves = [];
-            this.access_move();
-        }
-        else {
-            console.log("Позиция недоступна")
+        // Удаляем себя со старой клетки
+        Board.data[this.row][this.column] = '';
+
+        // Атака
+        const targetPiece = Board.data[targetRow][targetCol];
+        if (targetPiece !== '' && targetPiece.color !== this.color) {
+            console.log(`${this.color} pawn съел ${targetPiece.color} ${targetPiece.toString()}`);
         }
 
+        // Обновляем координаты
+        this.row = targetRow;
+        this.column = targetCol;
+        this.position = targetSquare;
+        Board.data[this.row][this.column] = this;
 
-        
-    };
+        this.access_move();
+    }
 
+    inBounds(row, col) {
+        return row >= 0 && row < 8 && col >= 0 && col < 8;
+    }
 
     toString() {
         return `${this.color}_pawn`;
     }
-    
-
 }
 
-export default Pawn
+export default Pawn;
